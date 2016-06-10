@@ -15,7 +15,7 @@ filename = "futures.csv"
 def write(price_html, tenfive_html, comp_html, taiex_html, date):
     if not os.path.isfile(filename):
         with open(filename, "w") as f:
-            titles =["date","taiex","contract","high","low","price","unclosed","5bull", "5bear", "10bull", "10bear","CompBull", "CompBear"]
+            titles =["date","taiex","contract","high","low","price","unclosed","t5Bull", "t5Bear", "t10Bull", "t10Bear","CompBull", "CompBear"]
             #titles =["日期","契約","最高","最低","價格","未平倉口數","5大多", "5大空", "10大多", "10大空"]
             title = ",".join(titles)+"\n"
             print title
