@@ -2,7 +2,7 @@
 
 import urllib,urllib2
 
-def process(url, form_data):
+def crawl(url, form_data):
     request = urllib2.Request(url) 
     request.add_header("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36")
     form_data = urllib.urlencode(form_data)
@@ -41,7 +41,6 @@ def crawl_tenfive(year, month, day):
 def crawl_comp(year, month, day):
     url = "https://www.taifex.com.tw/chinese/3/7_12_3.asp"
     form_data = {
-        "commodity_id": "MXF", 
         "DATA_DATE_Y": year,
         "DATA_DATE_M":month,
         "DATA_DATE_D":day,
