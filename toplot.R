@@ -1,17 +1,25 @@
 getwd()
 
+#大台
+unclosed_TXF <- read.csv(file="unclosed_TXF.csv",head=TRUE,sep=",")
+#小台
+unclosed_MXF <- read.csv(file="unclosed_MXF.csv",head=TRUE,sep=",")
+
 bull <- c('dealer_bull','foreign_bull','trust_bull')
 bear <- c('dealer_bear','foreign_bear','trust_bear')
 cols <- c('blue','darkseagreen','pink')
 
 columns<-bull
+dataframe<-unclosed_TXF
+plotname<-'futures:TX'
+
 #加權指數
 taiex <- read.csv(file="taiex.csv",head=TRUE,sep=",")
 names(taiex)
 ylims<-c(min(taiex[,'price']), max(taiex[,'price']))
 x<-c(1:nrow(taiex))
 y<-taiex[, 'price']
-plot(x, y, type="l", xaxt="n", xlab="time", ylab="price", ylim=ylims)
+plot(x, y, type="l", xaxt="n", xlab="time", ylab="price", ylim=ylims2)
 axis(1, at=x, labels=taiex[, 'date'])
 
 #description
@@ -42,16 +50,18 @@ par(new=T)
 y<-futures_MTX[,'amount']
 plot(x, y, type="h", axes=F, ylab="", xlab="", col="grey", lwd=2)
 
+
+
+maxs<-c()
+len<-length(columns)
+for(i in 1:len){
+  tmp <- max(dataframe[,columns[i]])
+  maxs<-c(maxs, tmp)
+}
+ylims<-c(0,max(maxs))
+
 plot_unclosed<-function(name, dataframe, columns, colors){
-  maxs<-c()
-  len<-length(columns)
   for(i in 1:len){
-    tmp <- max(dataframe[,columns[i]])
-    maxs<-c(maxs, tmp)
-  }
-  ylims<-c(0,max(maxs))
-  for(i in 1:len){
-    print(columns[i])
     y<-dataframe[, columns[i]]
     par(new=T)
     plot(x, y, type="l", axes=F, ylab="", xlab="", col=colors[i], main=name, ylim=ylims)
@@ -60,9 +70,4 @@ plot_unclosed<-function(name, dataframe, columns, colors){
   }
 }
 
-#大台
-unclosed_TXF <- read.csv(file="unclosed_TXF.csv",head=TRUE,sep=",")
-#plot_unclosed("futures:TX", unclosed_TXF, columns, cols)
-#小台
-unclosed_MXF <- read.csv(file="unclosed_MXF.csv",head=TRUE,sep=",")
-plot_unclosed("futures:MTX", unclosed_MXF, columns, cols)
+plot_unclosed(plotname, dataframe, columns, cols)
